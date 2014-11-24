@@ -35,7 +35,7 @@ page_a.each do |page|
   doc = Nokogiri::HTML.parse(html, nil, charset)
 
   doc2 = doc.xpath('//h3[@class = "title01"]')
-  puts doc2.xpath('a').text
+  puts doc2.xpath('a[1]').text
   puts doc2.xpath('span').text
   
   # 本文を抽出してリプライ以外のツイートを表示
@@ -44,6 +44,8 @@ page_a.each do |page|
       puts node.text
     end
   end
+  
+  p "\n"
 
   # 1秒間だけ待ってやる
   sleep(1)
