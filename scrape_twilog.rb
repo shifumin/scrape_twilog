@@ -8,7 +8,7 @@ require 'nokogiri'
 # UserAgentをIEに偽装
 UserAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 
-# 何年何月 2014年4月 1404
+# 何年何月 2014年4月なら1404
 month = ARGV[0]
 
 # ページ数
@@ -34,19 +34,17 @@ page_a.each do |page|
   # htmlをパース(解析)してオブジェクトを生成
   doc = Nokogiri::HTML.parse(html, nil, charset)
 
-  doc2 = doc.xpath('//h3[@class = "title01"]')
-  puts doc2.xpath('a[1]').text
-  puts doc2.xpath('span').text
-  
-  # 本文を抽出してリプライ以外のツイートを表示
-  doc.xpath('//p[@class = "tl-text"]').each do |node|
-    if node.xpath('a').text[0] != "@"
-      puts node.text
+  # 日付とツイート数とツイートをノードに格納
+  doc.xpath("//h3/a[1] | //h3/span | //section/article/p[@class = 'tl-text']").each do |node| 
+   # リプライを除く
+   if node.text[0] != "@"
+    puts node.text
     end
   end
-  
+
   p "\n"
 
   # 1秒間だけ待ってやる
   sleep(1)
+
 end
