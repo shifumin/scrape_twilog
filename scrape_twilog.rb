@@ -19,7 +19,7 @@ max_page.times do |p|
   page_a << p + 1
 end
 
-
+# 各ページごとの処理
 page_a.each do |page|
   p = page.to_s
   # スクレイピング先のURL
@@ -36,13 +36,18 @@ page_a.each do |page|
 
   # 日付とツイート数とツイートをノードに格納
   doc.xpath("//h3/a[1] | //h3/span | //section/article/p[@class = 'tl-text']").each do |node| 
+  
+  # 日にちごとに改行を入れる
+=begin   if node[@a] == 1 
+     puts "\n"
+  end
+=end
    # リプライを除く
    if node.text[0] != "@"
     puts node.text
     end
   end
 
-  p "\n"
 
   # 1秒間だけ待ってやる
   sleep(1)
