@@ -12,18 +12,13 @@ UserAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 # 何年何月 2014年4月なら1404
 month = ARGV[0]
 
-# ページ数
+# その月のツイートのページ数 10ページ目まであるなら10
 max_page = ARGV[1].to_i
-page_a = Array.new
-# page_a = [1..(max_page)]したい
-max_page.times do |p|
-  page_a << p + 1
-end
-
+page_range = 1..max_page
 
 
 # 各ページごとの処理
-page_a.each do |page|
+page_range.each do |page|
   p = page.to_s
   # スクレイピング先のURL
   url = "http://twilog.org/shifumin/month-#{month}/#{p}"
