@@ -5,6 +5,7 @@ require 'open-uri'
 # Nokogiriライブラリの読み込み
 require 'nokogiri'
 
+
 # UserAgentをIEに偽装
 UserAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 
@@ -18,6 +19,8 @@ page_a = Array.new
 max_page.times do |p|
   page_a << p + 1
 end
+
+
 
 # 各ページごとの処理
 page_a.each do |page|
@@ -34,15 +37,16 @@ page_a.each do |page|
   # htmlをパース(解析)してオブジェクトを生成
   doc = Nokogiri::HTML.parse(html, nil, charset)
 
+
   # 日付とツイート数とツイートをノードに格納
   doc.xpath("//h3/a[1] | //h3/span | //section/article/p[@class = 'tl-text']").each do |node| 
-  
+
   # 日にちごとに改行を入れる
-=begin   if node[@a] == 1 
+  if node.name == "a"
      puts "\n"
   end
-=end
-   # リプライを除く
+
+   # リプライを除く(RTは除かない)
    if node.text[0] != "@"
     puts node.text
     end
@@ -51,5 +55,6 @@ page_a.each do |page|
 
   # 1秒間だけ待ってやる
   sleep(1)
+
 
 end
