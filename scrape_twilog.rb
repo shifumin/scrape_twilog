@@ -1,9 +1,11 @@
 # coding:UTF-8
 
+require 'bundler/setup'
+
 #URLにアクセスするためのライブラリの読み込み　　　　　
-require 'open-uri'
+#require 'open-uri'
 # Nokogiriライブラリの読み込み
-require 'nokogiri'
+#require 'nokogiri'
 
 
 # UserAgentをIEに偽装
