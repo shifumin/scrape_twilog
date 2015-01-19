@@ -11,8 +11,9 @@ require 'nokogiri'
 # UserAgentをIEに偽装
 UserAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 
-# 何年何月 2014年4月なら1404
-month = ARGV[0]
+# 何年何月か 2014年4月なら201404と入力されるので、
+# monthに1404を格納する
+month = ARGV[0][-4, 4]
 
 # その月のツイートのページ数 10ページ目まであるなら10
 max_page = ARGV[1].to_i
