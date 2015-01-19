@@ -5,7 +5,7 @@ require 'bundler/setup'
 #URLにアクセスするためのライブラリの読み込み　　　　　
 require 'open-uri'
 # Nokogiriライブラリの読み込み
-#require 'nokogiri'
+require 'nokogiri'
 
 
 # UserAgentをIEに偽装
