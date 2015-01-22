@@ -11,19 +11,15 @@ require 'nokogiri'
 # UserAgentをIEに偽装
 UserAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 
-# 何年何月か 2014年4月なら201404と入力されるので、
-# monthに1404を格納する
+# 何年何月か 2014年4月なら201404と入力されるので、monthに1404を格納する
 month = ARGV[0][-4, 4]
-
-# その月のツイートのページ数 10ページ目まであるなら10
-max_page = ARGV[1].to_i
-page_range = 1..max_page
-
 
 # 各ページごとの処理
 catch(:break_loop) do
-  page_range.each do |page|
+  page = 0
 
+  while 1
+    page += 1    
     p = page.to_s
     # スクレイピング先のURL
     url = "http://twilog.org/shifumin/month-#{month}/#{p}"
