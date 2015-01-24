@@ -12,7 +12,11 @@ require 'nokogiri'
 UserAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 
 
-# 標準入力から何年何月のものをスクレイピングするか取得
+# 標準入力からどのIDの何年何月のものをスクレイピングするか取得
+puts "TwitterIDは？  例:shifumin"
+name = STDIN.gets
+name.chomp!
+
 puts "何年？  例:2014"
 year = STDIN.gets
 year.chomp!
@@ -24,11 +28,6 @@ month.chomp!
 y_m = year[-2, 2] + month
 
 
-=begin
-# 何年何月か 2014年4月なら201404と入力されるので、monthに1404を格納する
-month = ARGV[0][-4, 4]
-=end
-
 # 各ページごとの処理
 catch(:break_loop) do
   page = 0
@@ -37,7 +36,7 @@ catch(:break_loop) do
     page += 1    
     p = page.to_s
     # スクレイピング先のURL
-    url = "http://twilog.org/shifumin/month-#{y_m}/#{p}"
+    url = "http://twilog.org/#{name}/month-#{y_m}/#{p}"
 
     charset = nil
     html = open(url, "User-Agent" => UserAgent) do |f|
