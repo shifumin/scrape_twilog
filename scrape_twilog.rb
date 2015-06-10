@@ -3,22 +3,36 @@
 require 'bundler/setup'
 require 'nokogiri'
 require 'open-uri'
+require 'pp'
+
+# UserAgentをIEに設定
+USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0)"
 
 def get_nokogiri_doc(url)
   begin
-    html = open(url)
-  rescue Open::HTTPError
+    html = open(url, "User-Agent" => USER_AGENT)
+  rescue OpenURI::HTTPError
     return
   end
-  Nokogiri::HTML(html.read, nil, 'utf-8')
+  Nokogiri::HTML(html.read, nil, 'UTF-8')
 end
 
-# 「次のページ」のa hrefがあるかを調べる関数(作成中)
+# 次のページがあるかどうかをhref属性の有無で調べる関数
 def has_next_page?(doc)
-  doc.xpath("//ul[@class='nav-link mb10 mt0']/li").each do |element|
-    return true if element.text == ""
+  doc.xpath("//*[@class='nav-next']").each do |element|
+    return true if element.child.has_attribute?('href')
     return false
   end
+end
+
+def get_date(doc)
+  doc.xpath("//h3/a[1]").each do |element|
+    puts element.text
+  end
+end
+
+def get_tweet_count(doc)
+  puts doc.xpath("//h3/span")
 end
 
 def get_tweet_text(doc)
@@ -40,7 +54,7 @@ num = 1
 loop do
   url = "#{base_url}/#{user}/month-#{yearmonth}/#{num}"
   doc = get_nokogiri_doc(url)
-  get_tweet_text(doc)
+  get_date(doc)
   break unless has_next_page?(doc)
   num += 1
 end
