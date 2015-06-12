@@ -17,22 +17,20 @@ def get_nokogiri_doc(url)
   Nokogiri::HTML(html.read, nil, 'UTF-8')
 end
 
-# 次のページがあるかどうかをhref属性の有無で調べる関数
+# 次のページがあるかどうかを「次のページ」のhref属性の有無で調べる関数
 def has_next_page?(doc)
-  doc.xpath("//*[@class='nav-next']").each do |element|
-    return true if element.child.has_attribute?('href')
+  doc.xpath("//*[@class='nav-next']").each do |node|
+    return true if node.child.has_attribute?('href')
     return false
   end
 end
 
+# 日付とツイート数を表示するメソッド
 def get_date(doc)
-  doc.xpath("//h3/a[1]").each do |element|
-    puts element.text
+  doc.xpath("//h3").each do |node|
+    puts node.xpath("a[1]").text
+    puts node.xpath("span").text
   end
-end
-
-def get_tweet_count(doc)
-  puts doc.xpath("//h3/span")
 end
 
 def get_tweet_text(doc)
