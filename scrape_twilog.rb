@@ -17,7 +17,7 @@ def get_nokogiri_doc(url)
   Nokogiri::HTML(html.read, nil, 'UTF-8')
 end
 
-# 次のページがあるかどうかを「次のページ」のhref属性の有無で調べる関数
+# 次のページがあるかどうかを「次のページ」のhref属性の有無で調べるメソッド
 def has_next_page?(doc)
   doc.xpath("//*[@class='nav-next']").each do |node|
     return true if node.child.has_attribute?('href')
@@ -25,34 +25,43 @@ def has_next_page?(doc)
   end
 end
 
-# 日付とツイート数を表示するメソッド
-def get_date(doc)
-  doc.xpath("//h3").each do |node|
-    puts node.xpath("a[1]").text
-    puts node.xpath("span").text
+# 改行を入れる処理を実装する
+def get_tweet_data(doc)
+  doc.xpath("//div[@id='content']/h3 | //article[@class='tl-tweet']").each do |node|
+    # 日付を表示する
+    date = node.xpath("a[1]").text
+    puts date unless date.empty?
+
+    # ツイート数を表示する
+    tweet_count = node.xpath("span").text
+    puts tweet_count unless tweet_count.empty?
+
+    # リプライ以外のツイートを表示する
+    tweet = node.xpath("p[@class='tl-text']").text
+    puts tweet unless tweet.empty? || tweet[0] == '@'
+    puts "\n"
   end
 end
 
-def get_tweet_text(doc)
-  doc.xpath("").each do |element|
-    puts element.text
-  end
-end
-
+# main
+# TwilogのURLとツイートを取得するユーザーID
 base_url = "http://twilog.org"
 user = "shifumin"
 
-# 検索年月
-year = 2015
-month = 6
-yearmonth = "#{year - 2000}" + format("%02d", month)
+# 標準入力から何年何月のツイートを取得するかを入力する
+puts "何年？  例:2014"
+year = STDIN.gets.to_i
 
+puts "何月？  例:4"
+month = STDIN.gets.to_i
+
+yearmonth = "#{year - 2000}" + format("%02d", month)
 num = 1
 
 loop do
   url = "#{base_url}/#{user}/month-#{yearmonth}/#{num}"
   doc = get_nokogiri_doc(url)
-  get_date(doc)
+  get_tweet_data(doc)
   break unless has_next_page?(doc)
   num += 1
 end
