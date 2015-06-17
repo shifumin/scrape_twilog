@@ -3,7 +3,6 @@
 require 'bundler/setup'
 require 'nokogiri'
 require 'open-uri'
-require 'pp'
 
 # UserAgentをIEに設定
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0)"
