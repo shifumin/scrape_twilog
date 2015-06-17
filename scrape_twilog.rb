@@ -44,15 +44,14 @@ def get_tweet_data(doc)
 end
 
 # main
-# TwilogのURLとツイートを取得するユーザーID
 base_url = "http://twilog.org"
-user = "shifumin"
 
-# 標準入力から何年何月のツイートを取得するかを入力する
-puts "何年？  例:2014"
+# 標準入力からどのTwitterIDの何年何月のツイートを取得するかを入力する
+puts 'TwitterIDは？'
+user = STDIN.gets.chomp
+puts '何年？'
 year = STDIN.gets.to_i
-
-puts "何月？  例:4"
+puts '何月？'
 month = STDIN.gets.to_i
 
 yearmonth = "#{year - 2000}" + format("%02d", month)
